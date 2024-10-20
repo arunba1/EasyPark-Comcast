@@ -224,7 +224,9 @@
 
 import 'package:car_parking_system/Loginscreen.dart';
 import 'package:car_parking_system/Parkingscreen.dart';
+import 'package:car_parking_system/Parkingtrial.dart';
 import 'package:car_parking_system/Registerscreen.dart';
+import 'package:car_parking_system/Splashscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -246,7 +248,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.red,
         ),
-        home: Loginscreen(),
+        home: Splashscreen(),
+        // home: ParkingSlotScreen(),
       ),
     );
   }

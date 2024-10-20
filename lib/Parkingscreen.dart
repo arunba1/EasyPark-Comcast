@@ -402,21 +402,58 @@ class Parkingscreen extends StatelessWidget {
     final provider = Provider.of<SeatProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white24,
+      // extendBodyBehindAppBar: true,
       appBar: AppBar(
+        // shadowColor: Colors.white,
+        backgroundColor: Colors.transparent,
         title: Text(
           'Book your slot $email',
-          style: TextStyle(fontSize: 18),
+          style: TextStyle(
+              fontSize: 18, color: Colors.white, fontWeight: FontWeight.w500),
         ),
       ),
       body: Column(
         children: [
           SizedBox(
-            height: 30,
+            height: 2,
+          ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Parkingscreen(email: email),
+                          ));
+                    },
+                    child: Text('1st Floor')),
+                SizedBox(
+                  width: 20,
+                ),
+                ElevatedButton(onPressed: () {}, child: Text('2nd Floor')),
+                SizedBox(
+                  width: 20,
+                ),
+                ElevatedButton(onPressed: () {}, child: Text('3rd Floor')),
+                SizedBox(
+                  width: 20,
+                ),
+                ElevatedButton(onPressed: () {}, child: Text('4th Floor')),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 8,
           ),
           Expanded(
             child: GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 5,
+                crossAxisCount: 3,
+                childAspectRatio: 2,
               ),
               itemCount: provider.seats.length,
               itemBuilder: (context, index) {
@@ -424,46 +461,73 @@ class Parkingscreen extends StatelessWidget {
                 final isBooked = provider.isSeatBooked(seat);
                 final isSelected = provider.selectedSeat == seat;
                 return GestureDetector(
-                  onTap: () {
-                    if (!isBooked) {
-                      provider.selectSeat(seat); // Select the seat
-                    }
-                  },
-                  child: Stack(
-                    children: [
-                      Image.asset(
-                        'assets/seat.png',
+                    onTap: () {
+                      if (!isBooked) {
+                        provider.selectSeat(seat); // Select the seat
+                      }
+                    },
+                    // child: Stack(
+                    //   children: [
+                    //     Image.asset(
+                    //       'assets/seat.png',
+                    //       color: isBooked
+                    //           ? Colors.red
+                    //           : isSelected
+                    //               ? Colors.purple
+                    //               : Colors.green,
+                    //     ),
+                    //     Text(
+                    //       seat,
+                    //       style: TextStyle(
+                    //         color: Colors.white,
+                    //         fontWeight: FontWeight.bold,
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+
+                    child: Container(
+                      margin: EdgeInsets.all(4.0),
+                      decoration: BoxDecoration(
                         color: isBooked
-                            ? Colors.red
+                            ? Colors.white12
                             : isSelected
                                 ? Colors.purple
-                                : Colors.green,
+                                : Colors.white,
+                        border: Border.all(color: Colors.black),
                       ),
-                      Text(
-                        seat,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      child: Center(
+                        child: isBooked
+                            // ? Icon(Icons.directions_car, color: Colors.black)
+                            ? Image.asset('assets/slot3.jpg')
+                            : Text(
+                                seat,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color:
+                                      isSelected ? Colors.white : Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                       ),
-                    ],
-                  ),
-                );
+                    ));
               },
             ),
           ),
           SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: provider.selectedSeat != null
-                ? () async {
-                    await sendSeatToBackend(
-                        context, provider.selectedSeat!, email);
-                    provider.bookSeat(
-                        provider.selectedSeat!); // Mark the seat as booked
-                    provider.clearSelectedSeat(); // Clear the selection
-                  }
-                : null,
-            child: Text('Book'),
+          Container(
+            child: ElevatedButton(
+              onPressed: provider.selectedSeat != null
+                  ? () async {
+                      await sendSeatToBackend(
+                          context, provider.selectedSeat!, email);
+                      provider.bookSeat(
+                          provider.selectedSeat!); // Mark the seat as booked
+                      provider.clearSelectedSeat(); // Clear the selection
+                    }
+                  : null,
+              child: Text('Book'),
+            ),
           ),
         ],
       ),
