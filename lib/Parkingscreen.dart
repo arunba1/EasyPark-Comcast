@@ -401,19 +401,18 @@ class Parkingscreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<SeatProvider>(context);
     return Scaffold(
-      backgroundColor: Colors.white24,
-      // extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        // shadowColor: Colors.white,
-        backgroundColor: Colors.transparent,
-        title: Text(
-          'Book your slot $email',
-          style: TextStyle(
-              fontSize: 18, color: Colors.white, fontWeight: FontWeight.w500),
+        backgroundColor: Colors.white,
+        // extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          // shadowColor: Colors.white,
+          backgroundColor: Colors.transparent,
+          title: Text(
+            'Book your slot $email',
+            style: TextStyle(
+                fontSize: 18, color: Colors.black, fontWeight: FontWeight.w500),
+          ),
         ),
-      ),
-      body: Column(
-        children: [
+        body: Column(children: [
           SizedBox(
             height: 2,
           ),
@@ -447,70 +446,59 @@ class Parkingscreen extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 8,
+            height: 20,
           ),
           Expanded(
             child: GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
+                crossAxisCount: 2,
                 childAspectRatio: 2,
+                mainAxisSpacing: 30,
+                crossAxisSpacing: 60,
               ),
               itemCount: provider.seats.length,
               itemBuilder: (context, index) {
                 final seat = provider.seats[index];
                 final isBooked = provider.isSeatBooked(seat);
                 final isSelected = provider.selectedSeat == seat;
+                final borderColor = isBooked ? Colors.red : Colors.green;
                 return GestureDetector(
-                    onTap: () {
-                      if (!isBooked) {
-                        provider.selectSeat(seat); // Select the seat
-                      }
-                    },
-                    // child: Stack(
-                    //   children: [
-                    //     Image.asset(
-                    //       'assets/seat.png',
-                    //       color: isBooked
-                    //           ? Colors.red
-                    //           : isSelected
-                    //               ? Colors.purple
-                    //               : Colors.green,
-                    //     ),
-                    //     Text(
-                    //       seat,
-                    //       style: TextStyle(
-                    //         color: Colors.white,
-                    //         fontWeight: FontWeight.bold,
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
-
+                  onTap: () {
+                    if (!isBooked) {
+                      provider.selectSeat(seat); // Select the seat
+                    }
+                  },
+                  child: CustomPaint(
+                    painter: DottedBorderPainter(
+                        borderColor), // Custom painter for dotted border
                     child: Container(
                       margin: EdgeInsets.all(4.0),
                       decoration: BoxDecoration(
                         color: isBooked
                             ? Colors.white12
                             : isSelected
-                                ? Colors.purple
+                                ? Colors.yellow
                                 : Colors.white,
-                        border: Border.all(color: Colors.black),
                       ),
                       child: Center(
                         child: isBooked
-                            // ? Icon(Icons.directions_car, color: Colors.black)
-                            ? Image.asset('assets/slot3.jpg')
+                            ? Image.asset(
+                                'assets/slot3.jpg',
+                                fit: BoxFit.fill,
+                              )
                             : Text(
                                 seat,
                                 style: TextStyle(
                                   fontSize: 16,
-                                  color:
-                                      isSelected ? Colors.white : Colors.black,
+                                  color: Colors.black,
+                                  // isSelected ? Colors.black : Colors.black,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                       ),
-                    ));
+                    ),
+                  ),
+                );
               },
             ),
           ),
@@ -529,9 +517,67 @@ class Parkingscreen extends StatelessWidget {
               child: Text('Book'),
             ),
           ),
-        ],
-      ),
-    );
+        ]));
+  }
+}
+
+// Create a custom painter for the dotted border
+class DottedBorderPainter extends CustomPainter {
+  final Color bordercolor;
+  DottedBorderPainter(this.bordercolor);
+
+  // DottedBorderPainter(this.borderColor);
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = bordercolor
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke;
+
+    double dashWidth = 7, dashSpace = 3;
+    double startX = 0;
+    final path = Path();
+
+    // Draw top border
+    while (startX < size.width) {
+      path.moveTo(startX, 0);
+      path.lineTo(startX + dashWidth, 0);
+      startX += dashWidth + dashSpace;
+    }
+
+    // Draw right border
+    double startY = 0;
+    startX = size.width;
+    while (startY < size.height) {
+      path.moveTo(startX, startY);
+      path.lineTo(startX, startY + dashWidth);
+      startY += dashWidth + dashSpace;
+    }
+
+    // Draw bottom border
+    startX = 0;
+    startY = size.height;
+    while (startX < size.width) {
+      path.moveTo(startX, startY);
+      path.lineTo(startX + dashWidth, startY);
+      startX += dashWidth + dashSpace;
+    }
+
+    // Draw left border
+    startY = 0;
+    startX = 0;
+    while (startY < size.height) {
+      path.moveTo(startX, startY);
+      path.lineTo(startX, startY + dashWidth);
+      startY += dashWidth + dashSpace;
+    }
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
   }
 }
 

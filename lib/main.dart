@@ -249,7 +249,9 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.red,
         ),
         home: Splashscreen(),
-        // home: ParkingSlotScreen(),
+        // home: Parkingscreen(
+        //   email: "arun@comcast.com",
+        // ),
       ),
     );
   }
