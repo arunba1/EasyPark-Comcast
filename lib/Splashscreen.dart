@@ -35,7 +35,7 @@ class _SplashscreenState extends State<Splashscreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       // backgroundColor: Color.fromRGBO(230, 46, 4, 1),
-      backgroundColor: Colors.purple,
+      backgroundColor: Color.fromRGBO(0,0,139,0.87),
       body: Column(
         children: [
           // Align(
@@ -58,8 +58,11 @@ class _SplashscreenState extends State<Splashscreen> {
           SizedBox(
             height: 200,
           ),
-          Container(
-            child: LottieBuilder.asset('assets/Animation - 1729410357268.json'),
+          Expanded(
+            child: Container(
+              // height: 300,
+              child: Center(child: LottieBuilder.asset('assets/Animation - 1729410357268.json')),
+            ),
           ),
           10.heightBox,
           appname.text.fontFamily(bold).size(22).white.make(),

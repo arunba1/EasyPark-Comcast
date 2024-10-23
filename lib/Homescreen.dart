@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:car_parking_system/Parkingscreen.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class Homescreen extends StatelessWidget {
   final String email;
@@ -11,37 +12,23 @@ class Homescreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromRGBO(0,0,139,0.87),
+      // backgroundColor:Colors.orange,
+      // extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Text("Select any option"),
+        
+        title: Text("Select any option",style: TextStyle(color: Colors.white),),
+        backgroundColor: Colors.transparent,
       ),
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/cp1.jpg"),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(
-                  sigmaX: 8.5,
-                  sigmaY:
-                      8.5), // Adjust sigmaX and sigmaY for the desired blur intensity
-              child: Container(
-                color: Colors.grey.withOpacity(
-                    0.3), // You can adjust the color and opacity here
-              ),
-            ),
-          ),
-          Positioned(
-            top: 240, // adjust the top position of the buttons
-            left: 16, // adjust the left position of the buttons
-            right: 16, // adjust the right position of the buttons
+      body: 
+          SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              
               children: [
+                SizedBox(height: 20,),
+                Container(child: LottieBuilder.asset('assets/Animation-8.json'),),
+                SizedBox(height: 20,),
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: 100,
@@ -57,17 +44,17 @@ class Homescreen extends StatelessWidget {
                       child: Text(
                     "Welcome $email",
                     style: TextStyle(
-                        color: Colors.purple,
+                        color: Colors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                   )),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  height: 50,
+                  height: 60,
                   margin: const EdgeInsets.fromLTRB(0, 5, 0, 10),
                   decoration:
                       BoxDecoration(borderRadius: BorderRadius.circular(90)),
@@ -101,7 +88,7 @@ class Homescreen extends StatelessWidget {
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  height: 50,
+                  height: 60,
                   margin: const EdgeInsets.fromLTRB(0, 5, 0, 10),
                   decoration:
                       BoxDecoration(borderRadius: BorderRadius.circular(90)),
@@ -136,8 +123,7 @@ class Homescreen extends StatelessWidget {
               ],
             ),
           ),
-        ],
-      ),
-    );
+        
+      );
   }
 }
