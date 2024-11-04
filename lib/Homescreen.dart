@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:car_parking_system/Parkingscreen.dart';
+import 'package:car_parking_system/ViewScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -94,12 +95,12 @@ class Homescreen extends StatelessWidget {
                       BoxDecoration(borderRadius: BorderRadius.circular(90)),
                   child: TextButton(
                     onPressed: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => Parkingscreen(email: email),
-                      //   ),
-                      // );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ViewScreen(email: email),
+                        ),
+                      );
                     },
                     child: Text("View Your Slot",
                         style: const TextStyle(
