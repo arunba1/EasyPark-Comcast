@@ -12,6 +12,8 @@ class Homescreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String username = email.split('@')[0];
+    String user = username[0].toUpperCase() + username.substring(1);
     return Scaffold(
       backgroundColor: Color.fromRGBO(0,0,139,0.87),
       // backgroundColor:Colors.orange,
@@ -31,6 +33,7 @@ class Homescreen extends StatelessWidget {
                 Container(child: LottieBuilder.asset('assets/Animation-8.json'),),
                 SizedBox(height: 20,),
                 Container(
+                  margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
                   width: MediaQuery.of(context).size.width,
                   height: 100,
                   decoration: BoxDecoration(
@@ -43,7 +46,7 @@ class Homescreen extends StatelessWidget {
                   ),
                   child: Center(
                       child: Text(
-                    "Welcome $email",
+                    "Welcome $user",
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -56,7 +59,7 @@ class Homescreen extends StatelessWidget {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: 60,
-                  margin: const EdgeInsets.fromLTRB(0, 5, 0, 10),
+                  margin: const EdgeInsets.fromLTRB(10, 5, 10, 10),
                   decoration:
                       BoxDecoration(borderRadius: BorderRadius.circular(90)),
                   child: TextButton(
@@ -70,16 +73,16 @@ class Homescreen extends StatelessWidget {
                     },
                     child: Text("Book Your Slot",
                         style: const TextStyle(
-                            color: Colors.white,
+                            color: Colors.blue,
                             fontWeight: FontWeight.bold,
                             fontSize: 20)),
                     style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.resolveWith((states) {
                           if (states.contains(MaterialState.pressed)) {
-                            return Colors.blue;
+                            return Colors.grey;
                           }
-                          return Colors.green;
+                          return Colors.white;
                         }),
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -90,7 +93,7 @@ class Homescreen extends StatelessWidget {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: 60,
-                  margin: const EdgeInsets.fromLTRB(0, 5, 0, 10),
+                  margin: const EdgeInsets.fromLTRB(10, 5, 10, 10),
                   decoration:
                       BoxDecoration(borderRadius: BorderRadius.circular(90)),
                   child: TextButton(
@@ -104,16 +107,16 @@ class Homescreen extends StatelessWidget {
                     },
                     child: Text("View Your Slot",
                         style: const TextStyle(
-                            color: Colors.white,
+                            color: Colors.blue,
                             fontWeight: FontWeight.bold,
                             fontSize: 20)),
                     style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.resolveWith((states) {
                           if (states.contains(MaterialState.pressed)) {
-                            return Colors.blue;
+                            return Colors.grey;
                           }
-                          return Colors.green;
+                          return Colors.white;
                         }),
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
