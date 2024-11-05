@@ -32,7 +32,8 @@ class _LoginscreenState extends State<Loginscreen> {
                 SizedBox(height: 0,),
                 SizedBox(height: 0,),
                 Container(
-            child: LottieBuilder.asset('assets/Animation-3.json'),
+            // child: LottieBuilder.asset('assets/Animation-3.json'),
+            child: Image.asset('assets/file.png',height: 280,width:MediaQuery.of(context).size.width ),
           ),
           TextField(
                   controller: emailcontroller,
