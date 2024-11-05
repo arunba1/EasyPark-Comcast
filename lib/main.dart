@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.red,
         ),
         home: Splashscreen(),
-        // home: Homescreen(
+        // home: Parkingscreen(
         //   email: "arun@comcast.com",
         // ),
       ),

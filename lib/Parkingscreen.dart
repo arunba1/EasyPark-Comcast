@@ -349,7 +349,7 @@ Future<void> sendSeatToBackend(
               LottieBuilder.asset(
                 'assets/Animation - success.json', // Your success image
                 width: 80, // Adjust width as needed
-                height: 80, // Adjust height as needed
+                height: 90, // Adjust height as needed
                 fit: BoxFit.cover,
               ),
               SizedBox(width: 16), // Space between image and text
