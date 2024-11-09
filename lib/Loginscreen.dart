@@ -22,15 +22,15 @@ class _LoginscreenState extends State<Loginscreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromRGBO(0,0,139,0.87),
-      // backgroundColor: ,
+      // backgroundColor: Colors.purple,
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.fromLTRB(
               20, MediaQuery.of(context).size.height * 0.15, 20, 0),
         child: Column(
               children: [
-                SizedBox(height: 0,),
-                SizedBox(height: 0,),
+                // SizedBox(height: 0,),
+                // SizedBox(height: 0,),
                 Container(
             // child: LottieBuilder.asset('assets/Animation-3.json'),
             child: Image.asset('assets/file.png',height: 280,width:MediaQuery.of(context).size.width ),
@@ -101,34 +101,34 @@ class _LoginscreenState extends State<Loginscreen> {
                                     borderRadius: BorderRadius.circular(30)))),
                   ),
                 ),
-                Row(
-                  // crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    const Text(
-                      "Don't have an account?",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 14),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Registerscreen()));
-                      },
-                      child: Text(
-                        "SignUp",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14),
-                      ),
-                    )
-                  ],
-                ),
+                // Row(
+                //   // crossAxisAlignment: CrossAxisAlignment.center,
+                //   mainAxisAlignment: MainAxisAlignment.end,
+                //   children: [
+                //     const Text(
+                //       "Don't have an account?",
+                //       style: TextStyle(
+                //           color: Colors.white,
+                //           fontWeight: FontWeight.normal,
+                //           fontSize: 14),
+                //     ),
+                //     GestureDetector(
+                //       onTap: () {
+                //         Navigator.push(
+                //             context,
+                //             MaterialPageRoute(
+                //                 builder: (context) => Registerscreen()));
+                //       },
+                //       child: Text(
+                //         "SignUp",
+                //         style: TextStyle(
+                //             color: Colors.white,
+                //             fontWeight: FontWeight.bold,
+                //             fontSize: 14),
+                //       ),
+                //     )
+                //   ],
+                // ),
               ],
             ),
       ))
@@ -161,11 +161,11 @@ class _LoginscreenState extends State<Loginscreen> {
       // final responsedata = jsonDecode(response.body);
       // final message = responsedata['message'];
       // print(message);
-      await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(response.body),
-        backgroundColor: Colors.green,
-        duration: Duration(seconds: 3),
-      ));
+      // await ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //   content: Text(response.body),
+      //   backgroundColor: Colors.green,
+      //   duration: Duration(seconds: 3),
+      // ));
 
       await Navigator.push(
         context,
@@ -173,6 +173,13 @@ class _LoginscreenState extends State<Loginscreen> {
           builder: (context) => Homescreen(email: usercredentials['email']),
         ),
       );
+    }else{
+      print(response.body);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Center(child: Text(response.body)),
+        backgroundColor: Colors.red,
+        duration: Duration(seconds: 2),
+      ));
     }
   }
 }

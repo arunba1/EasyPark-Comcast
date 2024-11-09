@@ -19,14 +19,13 @@ class Parkingscreen extends StatelessWidget {
     final provider = Provider.of<SeatProvider>(context);
     return Scaffold(
         backgroundColor: Colors.white,
-        // extendBodyBehindAppBar: true,
         appBar: AppBar(
-          // shadowColor: Colors.white,
-          backgroundColor: Colors.transparent,
+          backgroundColor: Color.fromRGBO(0,0,139,0.87),
+          iconTheme: IconThemeData(color: Colors.white),
           title: Text(
             'Book Your Slot $user',
             style: TextStyle(
-                fontSize: 18, color: Colors.black, fontWeight: FontWeight.w500),
+                fontSize: 18, color: Colors.white, fontWeight: FontWeight.w500),
           ),
         ),
         body:  
@@ -329,7 +328,7 @@ Future<void> sendSeatToBackend(
     final message = responsedata['message'];
     print("Failed to book seat $seat");
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(message),
+      content: Center(child: Text(message)),
       backgroundColor: Colors.red,
       duration: Duration(seconds: 3),
     ));

@@ -19,6 +19,7 @@ class Homescreen extends StatelessWidget {
       // backgroundColor:Colors.orange,
       // extendBodyBehindAppBar: true,
       appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         
         title: Text("Select any option",style: TextStyle(color: Colors.white),),
         backgroundColor: Colors.transparent,
@@ -26,8 +27,6 @@ class Homescreen extends StatelessWidget {
       body: 
           SingleChildScrollView(
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              
               children: [
                 SizedBox(height: 20,),
                 Container(child: LottieBuilder.asset('assets/Animation-8.json'),),
