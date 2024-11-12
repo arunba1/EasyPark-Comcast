@@ -25,10 +25,10 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.red,
         ),
-        // home: Splashscreen(),
-        home: Homescreen(
-          email: "arun@comcast.com",
-        ),
+        home: Splashscreen(),
+        // home: Homescreen(
+        //   email: "arun@comcast.com",
+        // ),
       ),
     );
   }
