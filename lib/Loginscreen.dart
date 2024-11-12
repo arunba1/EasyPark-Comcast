@@ -175,11 +175,60 @@ class _LoginscreenState extends State<Loginscreen> {
       );
     }else{
       print(response.body);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Center(child: Text(response.body)),
-        backgroundColor: Colors.red,
-        duration: Duration(seconds: 2),
-      ));
+      _showSuccessDialog(context,response.body);
     }
   }
+}
+
+void _showSuccessDialog(BuildContext context, String seat) {
+  String msg = '';
+  msg=seat;
+  print(msg);
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: Container(
+          width: double.maxFinite, // Use maximum width
+          height: 50, // Set height as needed
+          child: Row(
+            children: [
+              // Image on the left
+              LottieBuilder.asset(
+                'assets/Animation-wrong.json', // Your success image
+                width: 50, // Adjust width as needed
+                height: 50, // Adjust height as needed
+                fit: BoxFit.cover,
+              ),
+              SizedBox(width: 10), // Space between image and text
+              // Success message on the right
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '$seat!',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog
+            },
+            child: Text('OK'),
+          ),
+        ],
+      );
+    },
+  );
 }

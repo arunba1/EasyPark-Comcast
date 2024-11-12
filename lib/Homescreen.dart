@@ -18,40 +18,31 @@ class Homescreen extends StatelessWidget {
       backgroundColor: Color.fromRGBO(0,0,139,0.87),
       // backgroundColor:Colors.orange,
       // extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.white),
+      // appBar: AppBar(
+      //   iconTheme: IconThemeData(color: Colors.white),
         
-        title: Text("Select any option",style: TextStyle(color: Colors.white),),
-        backgroundColor: Colors.transparent,
-      ),
+      //   title: Text("Select any option",style: TextStyle(color: Colors.white),),
+      //   backgroundColor: Colors.transparent,
+      // ),
       body: 
           SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(height: 20,),
-                Container(child: LottieBuilder.asset('assets/Animation-8.json'),),
-                SizedBox(height: 20,),
-                Container(
-                  margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
-                  width: MediaQuery.of(context).size.width,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    color: Colors.white54,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        bottomLeft: Radius.circular(50),
-                        bottomRight: Radius.circular(10),
-                        topRight: Radius.circular(50)),
-                  ),
-                  child: Center(
+                SizedBox(height: 50,),
+                Center(
                       child: Text(
-                    "Welcome $user",
+                    "Welcome $user!",
                     style: TextStyle(
                         color: Colors.white,
-                        fontSize: 20,
+                        fontSize: 25,
                         fontWeight: FontWeight.bold),
                   )),
-                ),
+                SizedBox(height: 70,),
+                Container(child: LottieBuilder.asset('assets/Animation-8.json'),),
+                SizedBox(height: 20,),
+                
+                
+                
                 SizedBox(
                   height: 10,
                 ),
@@ -89,6 +80,7 @@ class Homescreen extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(30)))),
                   ),
                 ),
+                SizedBox(height: 10,),
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: 60,

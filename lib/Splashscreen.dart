@@ -1,5 +1,3 @@
-// import 'dart:js';
-
 import 'package:car_parking_system/Loginscreen.dart';
 import 'package:car_parking_system/Strings.dart';
 import 'package:car_parking_system/Styles.dart';

@@ -1,4 +1,5 @@
-import 'package:car_parking_system/Splashscreen.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -6,16 +7,44 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Parkingscreen extends StatelessWidget {
+class Parkingscreen extends StatefulWidget {
   final String email;
 
   const Parkingscreen({Key? key, required this.email}) : super(key: key);
 
+  @override
+  _ParkingscreenState createState() => _ParkingscreenState();
+}
+
+class _ParkingscreenState extends State<Parkingscreen> {
+
+  late String username;
+  late String user;
+
+  late List<dynamic>seatdisplay;
+
+  @override
+  void initState() {
+    super.initState();
+    username = widget.email.split('@')[0];
+    user = username[0].toUpperCase() + username.substring(1);
+
+    // getslotdetails();
+    // Timer.periodic(Duration(seconds: 30), (Timer timer){
+    //   getslotdetails();
+    // });
+
+  }
+
+  void getslotdetails(){
+    var op = "https://5757r0zixi.execute-api.us-east-1.amazonaws.com/v1/get_all";
+    http.get(Uri.parse(op)).then((response){
+      print(response.body);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    String username = email.split('@')[0];
-    String user = username[0].toUpperCase() + username.substring(1);
     final provider = Provider.of<SeatProvider>(context);
     return Scaffold(
         backgroundColor: Colors.white,
@@ -47,7 +76,7 @@ class Parkingscreen extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => Parkingscreen(email: email),
+                              builder: (context) => Parkingscreen(email: widget.email),
                             ));
                       },
                       child: Text('1st Floor')),
@@ -70,7 +99,8 @@ class Parkingscreen extends StatelessWidget {
               height: 20,
             ),
             Expanded(
-              child: GridView.builder(
+              child:Padding(padding: EdgeInsets.only(left: 10, right: 10) , child: 
+              GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   childAspectRatio: 2,
@@ -121,7 +151,7 @@ class Parkingscreen extends StatelessWidget {
                     ),
                   );
                 },
-              ),
+              ),)
             ),
             SizedBox(height: 20),
             
@@ -133,10 +163,13 @@ class Parkingscreen extends StatelessWidget {
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(90)),
                 child: ElevatedButton(
                   onPressed: () async {
-                    await sendSeatToBackend(
-                        context, provider.selectedSeat!, email);
-                    provider.bookSeat(provider.selectedSeat!); // Mark the seat as booked
-                    provider.clearSelectedSeat(); // Clear the selection
+                    // await sendSeatToBackend(
+                    //     context, provider.selectedSeat!, widget.email);
+                    // provider.bookSeat(provider.selectedSeat!); // Mark the seat as booked
+                    // provider.clearSelectedSeat(); // Clear the selection
+                     if (provider.selectedSeat != null) {
+                      await sendSeatToBackend(context, provider.selectedSeat!, widget.email);
+                    }
                   },
                   child: Text('Book' ,style: const TextStyle(
                         color: Colors.white,
@@ -257,14 +290,14 @@ class SeatProvider with ChangeNotifier {
   String? selectedSeat;
 
   SeatProvider() {
-    _loadBookedSeats();
+    // _loadBookedSeats();
   }
 
   void bookSeat(String seat) async {
     DateTime now = DateTime.now();
     bookedSeats[seat] = now;
     notifyListeners();
-    await _saveBookedSeats();
+    // await _saveBookedSeats();
   }
 
   void selectSeat(String seat) {
@@ -277,38 +310,43 @@ class SeatProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  // bool isSeatBooked(String seat) {
+  //   if (bookedSeats.containsKey(seat)) {
+  //     DateTime bookedTime = bookedSeats[seat]!;
+  //     if (DateTime.now().difference(bookedTime).inHours < 12) {
+  //       return true;
+  //     } else {
+  //       bookedSeats.remove(seat);
+  //       _saveBookedSeats();
+  //     }
+  //   }
+  //   return false;
+  // }
+
   bool isSeatBooked(String seat) {
-    if (bookedSeats.containsKey(seat)) {
-      DateTime bookedTime = bookedSeats[seat]!;
-      if (DateTime.now().difference(bookedTime).inHours < 12) {
-        return true;
-      } else {
-        bookedSeats.remove(seat);
-        _saveBookedSeats();
-      }
-    }
-    return false;
-  }
-
-  Future<void> _loadBookedSeats() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? bookedSeatsString = prefs.getString('bookedSeats');
-    if (bookedSeatsString != null) {
-      Map<String, String> storedSeats =
-          Map<String, String>.from(jsonDecode(bookedSeatsString));
-      bookedSeats =
-          storedSeats.map((seat, time) => MapEntry(seat, DateTime.parse(time)));
-      notifyListeners();
-    }
-  }
-
-  Future<void> _saveBookedSeats() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    Map<String, String> stringSeats =
-        bookedSeats.map((seat, time) => MapEntry(seat, time.toIso8601String()));
-    await prefs.setString('bookedSeats', jsonEncode(stringSeats));
+    return bookedSeats.containsKey(seat);
   }
 }
+
+  // Future<void> _loadBookedSeats() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   String? bookedSeatsString = prefs.getString('bookedSeats');
+  //   if (bookedSeatsString != null) {
+  //     Map<String, String> storedSeats =
+  //         Map<String, String>.from(jsonDecode(bookedSeatsString));
+  //     bookedSeats =
+  //         storedSeats.map((seat, time) => MapEntry(seat, DateTime.parse(time)));
+  //     notifyListeners();
+  //   }
+  // }
+
+  // Future<void> _saveBookedSeats() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   Map<String, String> stringSeats =
+  //       bookedSeats.map((seat, time) => MapEntry(seat, time.toIso8601String()));
+  //   await prefs.setString('bookedSeats', jsonEncode(stringSeats));
+  // }
+// }
 
 String apiUrl =
     "https://5757r0zixi.execute-api.us-east-1.amazonaws.com/v1/book_slot";
@@ -322,17 +360,18 @@ Future<void> sendSeatToBackend(
   );
   if (response.statusCode == 200) {
     print(response.body);
+    
+    // After successful API response, perform state changes:
     _showSuccessDialog(context, seat);
+    // Mark seat as booked
+    context.read<SeatProvider>().bookSeat(seat); 
+    // Clear the selected seat
+    context.read<SeatProvider>().clearSelectedSeat();
   } else {
-    final responsedata = jsonDecode(response.body);
-    final message = responsedata['message'];
-    print("Failed to book seat $seat");
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Center(child: Text(message)),
-      backgroundColor: Colors.red,
-      duration: Duration(seconds: 3),
-    ));
+    print("Failed to book slot: ${response.body}");
+    _showFailureDialog(context, response.body);
   }
+
     }
   void _showSuccessDialog(BuildContext context, String seat) {
   showDialog(
@@ -361,13 +400,63 @@ Future<void> sendSeatToBackend(
                     Text(
                       'Booking Successful!',
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
                       'Your slot $seat has been successfully booked',
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 13),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog
+            },
+            child: Text('OK'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void _showFailureDialog(BuildContext context, String seat) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: Container(
+          width: double.maxFinite, // Use maximum width
+          height: 100, // Set height as needed
+          child: Row(
+            children: [
+              // Image on the left
+              LottieBuilder.asset(
+                'assets/Animation-wrong.json', // Your success image
+                width: 80, // Adjust width as needed
+                height: 90, // Adjust height as needed
+                fit: BoxFit.cover,
+              ),
+              SizedBox(width: 16), // Space between image and text
+              // Success message on the right
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '$seat!',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
