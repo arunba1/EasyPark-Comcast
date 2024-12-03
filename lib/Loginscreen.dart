@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:car_parking_system/Homescreen.dart';
 import 'package:car_parking_system/Parkingscreen.dart';
 import 'package:car_parking_system/Registerscreen.dart';
+import 'package:car_parking_system/scanqrscreen.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -151,7 +152,16 @@ class _LoginscreenState extends State<Loginscreen> {
 
   Future<void> _sendcred(
       Map<String, dynamic> usercredentials, String a, String b) async {
-    print(usercredentials);
+    print(a);
+    if(a=="security@comcast.com" && b == "admin"){
+       Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ScanQRScreen(),
+        )
+       );
+       return;
+    }
     final response = await http.post(Uri.parse(apiurl),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({"email": a, "password": b}));
